@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  # SQL Initialization Configuration
+  sql:
+    init:
+      mode: embedded
+      schema-locations:
+        - classpath:/org/springframework/batch/core/schema-drop-h2.sql
+        - classpath:/org/springframework/batch/core/schema-h2.sql
+        - classpath:/db/schema.sql
+      data-locations:
+        - classpath:/db/data.sql
+      encoding: UTF-8
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      # Disable Hibernate schema generation to use our SQL files instead
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+  h2:
+    console:
+      enabled: true
+
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false  # Disable job auto-execution for tests
